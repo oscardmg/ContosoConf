@@ -3,20 +3,27 @@ var form = document.getElementById("registration-form");
 var submitButton = form.querySelector("button");
     
 // TODO: Get the password <input> elements from the DOM by ID
-// var passwordInput = ...;
-// var confirmPasswordInput = ...;
+ var passwordInput = document.getElementById("password") ;
+ var confirmPasswordInput = document.getElementById("confirm-password");
 
 var checkPasswords = function () {
     // TODO: Compare passwordInput value to confirmPasswordInput value
 
-    // TODO: If passwords don't match then display error message on confirmPasswordInput (using setCustomValidity)
+    var passwordsMatch = passwordInput.value === confirmPasswordInput.value;
 
-    // TODO: If passwords do match then clear the error message (setCustomValidity with empty string)
+    if (passwordsMatch) {
+        // Clear any previous error message.
+        confirmPasswordInput.setCustomValidity("");
+    } else {
+        // Setting this error message will prevent the form from being submitted.
+        confirmPasswordInput.setCustomValidity("Your passwords don't match. Please type     the same password again.");
+    }
+
 };
 
 var addPasswordInputEventListeners = function () {
-    // TODO: Listen for the "input" event on passwordInput and confirmPasswordInput.
-    //       Call the checkPasswords function
+    passwordInput.addEventListener("input", checkPasswords, false);
+    confirmPasswordInput.addEventListener("input", checkPasswords, false);
 };
 
 var formSubmissionAttempted = function() {
