@@ -11,6 +11,9 @@ nav.page-nav {
 nav.page-nav .container {
     display: -ms-flexbox;
     display: flexbox;
+    display: -webkit-box;
+    
+
 }
 
 
