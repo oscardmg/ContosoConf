@@ -114,47 +114,84 @@
     });
 
     // TODO: Create a ScheduleList factory object using the Object.inherit helper method.
+    var ScheduleList = Object.inherit({
+        initialize: function (element, localStarStorage) {
+            this.element = element;
+            this.localStarStorage = localStarStorage;
+        },
+
+
+
+        startDownload: function () {
+            var request = $.ajax({
+                url: "/schedule/list",
+                context: this
+            });
+            request.done(this.downloadDone)
+                   .fail(this.downloadFailed);
+        },
+        downloadDone: function (responseData) {
+            this.addAll(responseData.schedule);
+        },
+        downloadFailed: function () {
+            alert("Could not retrieve schedule data at this time. Please try again later.");
+        },
+        addAll: function (itemsArray) {
+            itemsArray.forEach(this.add, this);
+        },
+        add: function (itemData) {
+            var item = ScheduleItem.create(itemData, this.localStarStorage);
+            this.element.appendChild(item.element);
+        }
+
+    });
 
     // TODO: Refactor these variables into properties of the ScheduleList object.
     //       Assign them in the "initialize" method from arguments
 
-    var element, localStarStorage;
+
 
     // TODO: Refactor these functions into methods of the ScheduleList object.
 
-    function startDownload() {
-        var request = $.ajax({
-            url: "/schedule/list"
-            // TODO: When refactoring, add the following property
-            // context: this
-        });
-        request.done(downloadDone)
-               .fail(downloadFailed);
-    }
+    //    function startDownload() {
+    //        var request = $.ajax({
+    //            url: "/schedule/list"
+    //            // TODO: When refactoring, add the following property
+    //            // context: this
+    //        });
+    //        request.done(downloadDone)
+    //               .fail(downloadFailed);
+    //}
 
-    function downloadDone(responseData) {
-        addAll(responseData.schedule);
-    }
+    //function downloadDone(responseData) {
+    //    addAll(responseData.schedule);
+    //}
 
-    function downloadFailed() {
-        alert("Could not retrieve schedule data at this time. Please try again later.");
-    }
+    //function downloadFailed() {
+    //    alert("Could not retrieve schedule data at this time. Please try again later.");
+    //}
 
-    function addAll(itemsArray) {
-        itemsArray.forEach(add); // TODO: When refactoring this, add the `this` argument to `forEach`.
-    }
+    //function addAll(itemsArray) {
+    //    itemsArray.forEach(add); // TODO: When refactoring this, add the `this` argument to `forEach`.
+    //}
 
-    function add(itemData) {
-        var item = ScheduleItem.create(itemData, localStarStorage);
-        element.appendChild(item.element);
-    }
+    //function add(itemData) {
+    //    var item = ScheduleItem.create(itemData, localStarStorage);
+    //    element.appendChild(item.element);
+    //}                                                               
 
     // TODO: Replace the following code by creating a ScheduleList object 
     //       and calling the startDownload method.
-    element = document.getElementById("schedule");
-    localStarStorage = LocalStarStorage.create(localStorage);
-    startDownload();
+    //element = document.getElementById("schedule");
+    //localStarStorage = LocalStarStorage.create(localStorage);
+    //startDownload();
 
+
+    var scheduleList = ScheduleList.create(
+        document.getElementById("schedule"),
+        LocalStarStorage.create(localStorage)
+    );
+    scheduleList.startDownload();
 } ());
 // SIG // Begin signature block
 // SIG // MIIaVgYJKoZIhvcNAQcCoIIaRzCCGkMCAQExCzAJBgUr
