@@ -5,8 +5,10 @@
 
 	var va = 'hola'
 
+	var Gato = {};
 
-	var Gato = function(nombre, color, edad) {
+
+	Gato.prototype = function(nombre, color, edad) {
 		this.nombre = nombre;
 		this.color = color;
 		this.edad = edad;
@@ -21,6 +23,8 @@
 	}
 
 
+
+
 	function comerExterna() {
 		alert("El gato: " + this.nombre + " se comio un raton");
 	}
@@ -32,15 +36,12 @@
 	}
 
 
-	var Siames = function() {
-		this.ojos = 4;
-	}
+	var Siames = Object.create(Gato);
 
 
 
 
-
-	var g = new Gato('gato','rojo',90);
+	//var g = new Gato('gato','rojo',90);
 
 	//alert("gato de color: " + g.color );
 
@@ -50,8 +51,7 @@
 
 
 
-	Siames.prototype = new Gato();
-
+	
 	
 	var s = new Siames('siames','blanco',20);
 	s.comer_2();
